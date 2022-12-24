@@ -1,7 +1,6 @@
 package com.driver;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 public class Gmail extends Email {
@@ -13,6 +12,7 @@ public class Gmail extends Email {
         super(emailId);
         this.inboxCapacity= inboxCapacity;
     }
+
 
     ArrayList<ArrayList<String>> mails= new ArrayList<>();
     ArrayList<ArrayList<String>> trashmails= new ArrayList<>();
@@ -32,9 +32,17 @@ public class Gmail extends Email {
         if(mails.size()>inboxCapacity) {
             ArrayList<String> curr = mails.get(0);
             mails.remove(0);
-            trashmails.add(currMail);
+            trashmails.add(curr);
         }
     }
+
+//    ArrayList<ArrayList<String>> printMail(){
+//        return mails;
+//    }
+//
+//    ArrayList<ArrayList<String>> printTrash(){
+//        return trashmails;
+//    }
 
     public void deleteMail(String message){
         // Each message is distinct
