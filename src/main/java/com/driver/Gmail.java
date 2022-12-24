@@ -22,17 +22,31 @@ public class Gmail extends Email {
         // 1. Each mail in the inbox is distinct.
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
 
-        String dt= date.toString();
-        ArrayList<String> currMail= new ArrayList<>();
-        currMail.add(dt);
-        currMail.add(sender);
-        currMail.add(message);
-        mails.add(currMail);
+        boolean flag= false;
+        for(int i=0; i<mails.size(); i++)
+        {
+            if(mails.get(i).get(2).equals(message))
+            {
+                flag= true;
+                break;
+            }
+        }
+
+        if(!flag)
+        {
+            String dt= date.toString();
+            ArrayList<String> currMail= new ArrayList<>();
+            currMail.add(dt);
+            currMail.add(sender);
+            currMail.add(message);
+            mails.add(currMail);
 //        Collections.sort(mails,(a, b)-> a.get(0).compareTo(b.get(0))>1?1:-1);
-        if(mails.size()>inboxCapacity) {
-            ArrayList<String> curr = mails.get(0);
-            mails.remove(0);
-            trashmails.add(curr);
+            if(mails.size()>inboxCapacity) {
+                ArrayList<String> curr = mails.get(0);
+                mails.remove(0);
+                trashmails.add(curr);
+        }
+
         }
     }
 
@@ -87,7 +101,7 @@ public class Gmail extends Email {
         String endDt= end.toString();
 
         int i=0;
-        while(i<mails.size() && startDt.compareTo(mails.get(i).get(0).toString())<=0)
+        while(i<mails.size() && startDt.compareTo(mails.get(i).get(0).toString())<0)
         {
 //           System.out.println(mails.get(i).get(0).toString());
             i++;
@@ -120,6 +134,6 @@ public class Gmail extends Email {
 
     public int getInboxCapacity() {
         // Return the maximum number of mails that can be stored in the inbox
-        return inboxCapacity;
+        return this.inboxCapacity;
     }
 }

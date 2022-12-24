@@ -44,7 +44,7 @@ public class Email {
                 }
                 if(upper>=1 && lower>=1 && digit>=1 && special>=1)
                 {
-                    password= newPassword;
+                    this.password= newPassword;
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.driver;
 
 import java.time.LocalTime;
+import java.io.*;
+import java.util.*;
 
 public class Meeting {
     private LocalTime startTime;
@@ -11,6 +13,8 @@ public class Meeting {
         this.endTime = endTime;
     }
 
+
+
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -19,4 +23,14 @@ public class Meeting {
         return endTime;
     }
 
+}
+
+class meetingCompare implements Comparator<Meeting>
+{
+    public int compare(Meeting m1, Meeting m2)
+    {
+        if (m1.getStartTime().toString().compareTo(m2.getStartTime().toString())<0) return -1;
+        if (m1.getStartTime().toString().compareTo(m2.getStartTime().toString())>0) return 1;
+        else return 0;
+    }
 }

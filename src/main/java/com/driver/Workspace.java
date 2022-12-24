@@ -20,6 +20,9 @@ public class Workspace extends Gmail{
         //add the meeting to calendar
         calendar.add(meeting);
 
+        meetingCompare mc= new meetingCompare();
+        Collections.sort(calendar, mc);
+
     }
 
     public int findMaxMeetings(){
@@ -29,17 +32,27 @@ public class Workspace extends Gmail{
         // Example: If a meeting ends at 10:00 am, you cannot attend another meeting starting at 10:00 am
 
         int count=1;
-        String last=calendar.get(0).getStartTime().toString();
+        String last=calendar.get(0).getEndTime().toString();
         for(int i=1; i<calendar.size(); i++)
         {
             String curr=calendar.get(i).getStartTime().toString();
             if(last.compareTo(curr)<0)
             {
-                last= curr;
+                //System.out.println(last);
+                last= calendar.get(i).getEndTime().toString();
                 count++;
             }
         }
 
         return count;
+    }
+
+    void printCalender(){
+        for(int i=0; i<calendar.size(); i++)
+        {
+            String st= calendar.get(i).getStartTime().toString();
+            String en= calendar.get(i).getEndTime().toString();
+            System.out.println(st+" "+en);
+        }
     }
 }
