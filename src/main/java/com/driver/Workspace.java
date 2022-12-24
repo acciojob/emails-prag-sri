@@ -20,8 +20,8 @@ public class Workspace extends Gmail{
         //add the meeting to calendar
         calendar.add(meeting);
 
-        meetingCompare mc= new meetingCompare();
-        Collections.sort(calendar, mc);
+//        meetingCompare mc= new meetingCompare();
+//        Collections.sort(calendar, mc);
 
     }
 
@@ -38,21 +38,22 @@ public class Workspace extends Gmail{
             String curr=calendar.get(i).getStartTime().toString();
             if(last.compareTo(curr)<0)
             {
-                //System.out.println(last);
+
                 last= calendar.get(i).getEndTime().toString();
                 count++;
+                System.out.println(last);
             }
         }
 
         return count;
     }
 
-    void printCalender(){
-        for(int i=0; i<calendar.size(); i++)
-        {
-            String st= calendar.get(i).getStartTime().toString();
-            String en= calendar.get(i).getEndTime().toString();
-            System.out.println(st+" "+en);
-        }
-    }
+//    void printCalender(){
+//        for(int i=0; i<calendar.size(); i++)
+//        {
+//            String st= calendar.get(i).getStartTime().toString();
+//            String en= calendar.get(i).getEndTime().toString();
+//            System.out.println(st+" "+en);
+//        }
+//    }
 }
