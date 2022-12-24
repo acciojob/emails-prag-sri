@@ -6,26 +6,41 @@ import java.time.LocalTime;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
-        Email email = new Email("accio@gmail.com");
-        email.changePassword("Accio@123", "V12@");
-        email.changePassword("Acio@123", "V12@v");
-        email.changePassword("Accio@123", "V12@v123");
+//        Email email = new Email("accio@gmail.com");
+//        email.changePassword("Accio@123", "V12@");
+//        System.out.println(email.getPassword());
+//        email.changePassword("Acio@123", "V12@v");
+//        System.out.println(email.getPassword());
+//        email.changePassword("Accio@123", "V12@v123");
+//        System.out.println(email.getPassword());
 
         Gmail gmail = new Gmail("accio@gmail.com", 3);
         gmail.receiveMail(new SimpleDateFormat("dd/MM/yyyy").parse("21/12/2022"), "Tushar", "Assignment Completed?");
+//        System.out.println(gmail.getInboxSize());
+//        System.out.println(gmail.getTrashSize());
         gmail.receiveMail(new SimpleDateFormat("dd/MM/yyyy").parse("22/12/2022"), "Tushar", "We are running out of time.");
+//        System.out.println(gmail.getInboxSize());
+//        System.out.println(gmail.getTrashSize());
         gmail.receiveMail(new SimpleDateFormat("dd/MM/yyyy").parse("22/12/2022"), "Abhishek", "Assignment to be uploaded on database.");
+//        System.out.println(gmail.getInboxSize());
+//        System.out.println(gmail.getTrashSize());
         gmail.receiveMail(new SimpleDateFormat("dd/MM/yyyy").parse("23/12/2022"), "Tushar", "Everything looks good.");
+//        System.out.println(gmail.getInboxSize());
+//        System.out.println(gmail.getTrashSize());
 
-        System.out.println("Total " + gmail.getInboxSize() + " mails in inbox.");
-        System.out.println("There are " + gmail.findMailsBetweenDates(new SimpleDateFormat("dd/MM/yyyy").parse("21/12/2022"), new SimpleDateFormat("dd/MM/yyyy").parse("22/12/2022")) + " mails between given dates!");
-        gmail.deleteMail("Everything looks good.");
-        System.out.println("The latest message is :" + gmail.findLatestMessage());
-        gmail.deleteMail("Assignment to be uploaded on database.");
-        System.out.println("There are " + gmail.getTrashSize() + " mails in the trash.");
-        gmail.emptyTrash();
-        System.out.println("There are " + gmail.getTrashSize() + " mails in the trash.");
 
+//        System.out.println("Total " + gmail.getInboxSize() + " mails in inbox.");
+//        System.out.println("There are " + gmail.findMailsBetweenDates(new SimpleDateFormat("dd/MM/yyyy").parse("21/12/2022"), new SimpleDateFormat("dd/MM/yyyy").parse("22/12/2022")) + " mails between given dates!");
+//        System.out.println(gmail.getTrashSize());       //1
+//        gmail.deleteMail("Everything looks good.");
+//        System.out.println(gmail.getTrashSize());       //2
+//        System.out.println("The latest message is :" + gmail.findLatestMessage());
+//        gmail.deleteMail("Assignment to be uploaded on database.");
+//        System.out.println(gmail.getTrashSize());       //3
+//        System.out.println("There are " + gmail.getTrashSize() + " mails in the trash.");
+//        gmail.emptyTrash();
+//        System.out.println("There are " + gmail.getTrashSize() + " mails in the trash.");
+//
         Workspace workspace = new Workspace("accio@gmail.com");
         System.out.println("Inbox capacity is " + workspace.getInboxCapacity() + " in workspace.");
 

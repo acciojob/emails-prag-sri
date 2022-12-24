@@ -23,18 +23,14 @@ public class Gmail extends Email {
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
 
         String dt= date.toString();
-        if(mails.size()<=inboxCapacity)
-        {
-            ArrayList<String> currMail= new ArrayList<>();
-            currMail.add(dt);
-            currMail.add(sender);
-            currMail.add(message);
-            mails.add(currMail);
-            Collections.sort(mails,(a, b)-> a.get(0).compareTo(b.get(0))>1?1:-1);
-        }
-        else
-        {
-            ArrayList<String> currMail= mails.get(0);
+        ArrayList<String> currMail= new ArrayList<>();
+        currMail.add(dt);
+        currMail.add(sender);
+        currMail.add(message);
+        mails.add(currMail);
+//        Collections.sort(mails,(a, b)-> a.get(0).compareTo(b.get(0))>1?1:-1);
+        if(mails.size()>inboxCapacity) {
+            ArrayList<String> curr = mails.get(0);
             mails.remove(0);
             trashmails.add(currMail);
         }
@@ -79,17 +75,23 @@ public class Gmail extends Email {
         //It is guaranteed that start date <= end date
 
         int count=0;
-        for(int i=0; i<mails.size(); i++)
+        String startDt= start.toString();
+        String endDt= end.toString();
+
+        int i=0;
+        while(i<mails.size() && startDt.compareTo(mails.get(i).get(0).toString())<=0)
         {
-            if(mails.get(i).get(0).equals(start))
-            {
-                while(!mails.get(i).get(0).equals(end))
-                {
-                    count++;
-                    i++;
-                }
-            }
+//           System.out.println(mails.get(i).get(0).toString());
+            i++;
         }
+
+        while(i<mails.size() && endDt.compareTo(mails.get(i).get(0).toString())<=0)
+        {
+//            System.out.println(mails.get(i).get(0).toString());
+            i++;
+            count++;
+        }
+
         return count;
     }
 
