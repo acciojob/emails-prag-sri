@@ -30,7 +30,7 @@ public class Email {
         // 4. It contains at least one digit
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
 
-        if(oldPassword.equals(password))
+        if(oldPassword.equals(getPassword()))
         {
             if(newPassword.length()>=8)
             {

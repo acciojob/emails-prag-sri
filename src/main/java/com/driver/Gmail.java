@@ -9,8 +9,8 @@ public class Gmail extends Email {
     //Inbox: Stores mails. Each mail has date (Date), sender (String), message (String). It is guaranteed that message is distinct for all mails.
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
 
-    ArrayList<ArrayList<String>> mails;
-    ArrayList<ArrayList<String>> trashmails;
+    private ArrayList<ArrayList<String>> mails;
+    private ArrayList<ArrayList<String>> trashmails;
 
     public Gmail(String emailId, int inboxCapacity) {
         super(emailId);
@@ -19,6 +19,21 @@ public class Gmail extends Email {
         this.trashmails= new ArrayList<>();
     }
 
+    public ArrayList<ArrayList<String>> getMails() {
+        return mails;
+    }
+
+    public void setMails(ArrayList<String> newMail) {
+        mails.add(newMail);
+    }
+
+    public ArrayList<ArrayList<String>> getTrashmails() {
+        return trashmails;
+    }
+
+    public void setTrashmails(ArrayList<String> newMail) {
+        trashmails.add(newMail);
+    }
 
     public void receiveMail(Date date, String sender, String message){
         // If the inbox is full, move the oldest mail in the inbox to trash and add the new mail to inbox.
@@ -26,41 +41,20 @@ public class Gmail extends Email {
         // 1. Each mail in the inbox is distinct.
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
 
-        boolean flag= false;
-        for(int i=0; i<mails.size(); i++)
-        {
-            if(mails.get(i).get(2).equals(message))
-            {
-                flag= true;
-                break;
-            }
-        }
 
-        if(!flag)
-        {
-            String dt= date.toString();
-            ArrayList<String> currMail= new ArrayList<>();
-            currMail.add(dt);
-            currMail.add(sender);
-            currMail.add(message);
-            mails.add(currMail);
-//        Collections.sort(mails,(a, b)-> a.get(0).compareTo(b.get(0))>1?1:-1);
-            if(mails.size()>inboxCapacity) {
-                ArrayList<String> curr = mails.get(0);
-                mails.remove(0);
-                trashmails.add(curr);
+        if(inboxCapacity==mails.size()) {
+            ArrayList<String> oldMail = mails.get(0);
+            mails.remove(0);
+            setTrashmails(oldMail);
         }
+        ArrayList<String> currMail= new ArrayList<>();
+        String dt= date.toString();
+        currMail.add(dt);
+        currMail.add(sender);
+        currMail.add(message);
+        setMails(currMail);
 
-        }
     }
-
-//    ArrayList<ArrayList<String>> printMail(){
-//        return mails;
-//    }
-//
-//    ArrayList<ArrayList<String>> printTrash(){
-//        return trashmails;
-//    }
 
     public void deleteMail(String message){
         // Each message is distinct
@@ -101,23 +95,22 @@ public class Gmail extends Email {
         //It is guaranteed that start date <= end date
 
         int count=0;
-        String startDt= start.toString();
-        String endDt= end.toString();
+        String st= start.toString();
+        String en= end.toString();
 
-        int i=0;
-        while(i<mails.size() && startDt.compareTo(mails.get(i).get(0).toString())<0)
+        for(int i=0; i<mails.size(); i++)
         {
-//           System.out.println(mails.get(i).get(0).toString());
-            i++;
+            if(st.compareTo(mails.get(i).get(0))>=0)
+            {
+                while(i<mails.size() && en.compareTo(mails.get(i).get(0))<=0)
+                {
+                    count++;
+                    i++;
+                }
+            }
+            if(count>0)
+                break;
         }
-
-        while(i<mails.size() && endDt.compareTo(mails.get(i).get(0).toString())<=0)
-        {
-//            System.out.println(mails.get(i).get(0).toString());
-            i++;
-            count++;
-        }
-
         return count;
     }
 
@@ -138,6 +131,6 @@ public class Gmail extends Email {
 
     public int getInboxCapacity() {
         // Return the maximum number of mails that can be stored in the inbox
-        return this.inboxCapacity;
+        return inboxCapacity;
     }
 }
