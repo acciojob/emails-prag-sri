@@ -18,6 +18,10 @@ public class Email {
         return password;
     }
 
+    public void setEmailId(String newEmailId){
+        this.emailId= newEmailId;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -34,19 +38,20 @@ public class Email {
         {
             if(newPassword.length()>=8)
             {
-                int upper=0, lower=0, digit=0, special=0;
+                boolean upper=false, lower=false, digit=false, special=false;
                 for(int i=0; i<newPassword.length(); i++)
                 {
-                    if(newPassword.charAt(i)>='a' && newPassword.charAt(i)<='z')
-                        lower++;
-                    else if(newPassword.charAt(i)>='A' && newPassword.charAt(i)<='Z')
-                        upper++;
-                    else if(newPassword.charAt(i)>='0' && newPassword.charAt(i)<='9')
-                        digit++;
+                    char ch= newPassword.charAt(i);
+                    if(ch>='a' && ch<='z')
+                        lower=true;
+                    else if(ch>='A' && ch<='Z')
+                        upper=true;
+                    else if(ch>='0' && ch<='9')
+                        digit=true;
                     else
-                        special++;
+                        special=true;
                 }
-                if(upper>=1 && lower>=1 && digit>=1 && special>=1)
+                if(upper && lower && digit && special)
                 {
                     setPassword(newPassword);
                 }

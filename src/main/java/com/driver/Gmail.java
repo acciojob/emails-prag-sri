@@ -9,8 +9,8 @@ public class Gmail extends Email {
     //Inbox: Stores mails. Each mail has date (Date), sender (String), message (String). It is guaranteed that message is distinct for all mails.
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
 
-    private ArrayList<ArrayList<String>> mails;
-    private ArrayList<ArrayList<String>> trashmails;
+    private ArrayList<Mail> mails;
+    private ArrayList<Mail> trashmails;
 
     public Gmail(String emailId, int inboxCapacity) {
         super(emailId);
@@ -19,20 +19,12 @@ public class Gmail extends Email {
         this.trashmails= new ArrayList<>();
     }
 
-    public ArrayList<ArrayList<String>> getMails() {
+    public ArrayList<Mail> getMails() {
         return mails;
     }
 
-    public void setMails(ArrayList<String> newMail) {
-        mails.add(newMail);
-    }
-
-    public ArrayList<ArrayList<String>> getTrashmails() {
+    public ArrayList<Mail> getTrashmails() {
         return trashmails;
-    }
-
-    public void setTrashmails(ArrayList<String> newMail) {
-        trashmails.add(newMail);
     }
 
     public void receiveMail(Date date, String sender, String message){
@@ -42,30 +34,25 @@ public class Gmail extends Email {
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
 
 
-        if(inboxCapacity==mails.size()) {
-            ArrayList<String> oldMail = mails.get(0);
-            mails.remove(0);
-            setTrashmails(oldMail);
-        }
-        ArrayList<String> currMail= new ArrayList<>();
-        String dt= date.toString();
-        currMail.add(dt);
-        currMail.add(sender);
-        currMail.add(message);
-        setMails(currMail);
+        Mail newMail = new Mail(date,sender,message);
 
+        if(inboxCapacity==mails.size()) {
+            mails.remove(0);
+            trashmails.add(newMail);
+        }
+        mails.add(newMail);
     }
 
     public void deleteMail(String message){
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
-        for(int i=0; i<mails.size(); i++)
+        for(Mail m: mails)
         {
-            if(mails.get(i).get(2).equals(message))
+            if(m.getMessage().equals(message))
             {
-                ArrayList<String> currMail= mails.get(i);
-                mails.remove(i);
-                trashmails.add(currMail);
+                trashmails.add(m);
+                mails.remove(m);
+                break;
             }
         }
     }
@@ -77,7 +64,7 @@ public class Gmail extends Email {
         if(mails.size()==0)
             return null;
 
-        return mails.get(mails.size()-1).get(2);
+        return mails.get(mails.size()-1).getMessage();
     }
 
     public String findOldestMessage(){
@@ -86,7 +73,7 @@ public class Gmail extends Email {
         if(mails.size()==0)
             return null;
 
-        return mails.get(0).get(2);
+        return mails.get(0).getMessage();
 
     }
 
@@ -95,14 +82,12 @@ public class Gmail extends Email {
         //It is guaranteed that start date <= end date
 
         int count=0;
-        String st= start.toString();
-        String en= end.toString();
 
         for(int i=0; i<mails.size(); i++)
         {
-            if(st.compareTo(mails.get(i).get(0))>=0)
+            if(start.compareTo(mails.get(i).getDate())<=0)
             {
-                while(i<mails.size() && en.compareTo(mails.get(i).get(0))<=0)
+                while(i<mails.size() && end.compareTo(mails.get(i).getDate())>=0)
                 {
                     count++;
                     i++;
